@@ -2,26 +2,39 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/tachyons.min.css">
     <title></title>
   </head>
   <body>
 
+    <div class="tc pa5-ns pa2">
+
     <img src="static/logo.png" alt="">
 
-    <div class="">
+    <div class="pa2 mv3 red">
       {{ERROR}}
     </div>
 
     <form action="/" method="post">
 
+      <div class="pa2">
         <label class="dib w3" for="usuario">Usuario</label>
         <input type="text" name="usuario" value="">
+      </div>
 
+      <div class="pa2">
         <label class="dib w3" for="clave">Clave</label>
         <input type="password" name="clave" value="">
+      </div>
 
-      <button type="submit" name="button">Ingresar</button>
+      <div class="pa2 mt3">
+        <label class="dib w3"></label>
+
+        <button type="submit" class="bg-blue white ph4 pv2">Ingresar</button>
+      </div>
     </form>
 
+    </div>
   </body>
 </html>
