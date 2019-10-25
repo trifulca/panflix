@@ -6,6 +6,8 @@ const nunjucks = require("nunjucks");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const { lstatSync, readdirSync } = require("fs");
+const { join } = require("path");
 
 const app = express();
 
@@ -28,8 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 function autenticado(req, res, next) {
-  //next();
-
   if (!req.session.autenticado) {
     res.send("No estás autorizado a ingresar en esta sección");
   } else {
@@ -68,8 +68,20 @@ app.get("/logout", function(req, res) {
   });
 });
 
-app.get("/video/:id", autenticado, function(req, res) {
-  const path = `assets/${req.params.id}`;
+app.get("/video/:id", function(req, res) {
+  const nombre = req.params.id;
+  res.render("video.html", { nombre });
+});
+
+app.get("/video-subs/:id", autenticado, function(req, res) {
+  const nombre = req.params.id;
+  let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.vtt`);
+  res.sendFile(archivo);
+});
+
+app.get("/video-stream/:id", autenticado, function(req, res) {
+  const nombre = req.params.id;
+  const path = `videos/${nombre}/${nombre}.mp4`;
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -100,8 +112,27 @@ app.get("/video/:id", autenticado, function(req, res) {
   }
 });
 
+app.get("/captura/:id", function(req, res) {
+  let nombre = req.params.id;
+  let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.jpg`);
+  res.sendFile(archivo);
+});
+
+function es_directorio(archivo) {
+  return lstatSync(archivo).isDirectory();
+}
+
+function obtener_directorios(ruta) {
+  return readdirSync(ruta)
+    .map(name => join(ruta, name))
+    .filter(es_directorio);
+}
+
 app.get("/videos", autenticado, function(req, res) {
-  res.render("videos.html", { lista: [2, 3, 4, 5] });
+  let directorios = obtener_directorios("videos").map(e =>
+    e.replace("videos/", "")
+  );
+  res.render("videos.html", { directorios });
 });
 
 app.listen(3000, function() {

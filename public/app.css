@@ -5,7 +5,7 @@
   font-size: 73px;
 }
 
-.video {
+.miniatura-de-video {
   display: inline-block;
   position: relative;
   vertical-align: top;
@@ -32,4 +32,22 @@ a {
     0 0 0 3px rgba(16, 112, 202, 0.14);
   outline: 0;
   z-index: 2;
+}
+
+.fondo-de-foto {
+  background-color: #ccc;
+  width: 300px;
+  height: 200px;
+}
+
+.captura {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.video {
+  object-fit: contain;
+  width: 100%;
+  height: 100vh;
 }

@@ -10,19 +10,23 @@
 
   <body class="sans-serif ph3">
 
-    <h1>Videos</h1>
-
-    <div class="pa2 sans-serif">
+    <div class="pv2 sans-serif">
       <a href="/logout">Salir</a>
     </div>
 
-    <a href="video/123123A">
-    <div class="video">
-      <img src="https://picsum.photos/300/200/?blur" alt="">
-      <div class="titulo">
-        Nombre de la pelicula
-      </div>
-    </div>
+    {% for nombre in directorios %}
+      <a href="video/{{nombre}}" class="dib ">
+        <div class="miniatura-de-video grow">
+          <div class="fondo-de-foto">
+            <img src="/captura/{{nombre}}" class="captura" alt="">
+          </div>
+          <div class="titulo">
+            {{nombre}}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+
   </a>
 
   </body>
