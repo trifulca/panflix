@@ -32,4 +32,4 @@ test_open:
 	npm run cypress:open
 
 ejecutar:
-	npm run start
+	npm run start-dev

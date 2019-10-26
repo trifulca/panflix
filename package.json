@@ -5,7 +5,8 @@
     "node": ">=6.2.0"
   },
   "scripts": {
-    "start": "nodemon -e .html,.js index.js",
+    "start": "NODE_ENV=production node index.js",
+    "start-dev": "nodemon -e .html,.js index.js",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open"
   },

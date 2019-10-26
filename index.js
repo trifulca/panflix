@@ -11,6 +11,11 @@ const { join } = require("path");
 
 const app = express();
 
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
+
+
+
 nunjucks.configure("templates", {
   autoescape: true,
   express: app
@@ -135,6 +140,6 @@ app.get("/videos", autenticado, function(req, res) {
   res.render("videos.html", { directorios });
 });
 
-app.listen(3000, function() {
-  console.log("Iniciando servicio en http://localhost:3000 ");
+app.listen(PORT, HOST, function() {
+  console.log(`Iniciando servicio en http://${HOST}:${PORT}`);
 });
