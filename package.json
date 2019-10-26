@@ -2,7 +2,7 @@
   "name": "panflix",
   "main": "index.js",
   "engines": {
-    "node": ">=6.2.0"
+    "node": ">=8.2.0"
   },
   "scripts": {
     "start": "NODE_ENV=production node index.js",

@@ -20,6 +20,15 @@ El paso siguiente es ingresar en la aplicación con un usuario como
 
 - "pana": En Panamá, Ecuador, Venezuela y Puerto Rico, "pana" quiere decir "amigo". Este significado tiene origen indígena. Proviene de _panaca_ que quiere decir familia y _pana_ significa miembro de la familia.
 
+## Deploy
+
+Para hacer deploys en dokku se tienen que ejecutar estos comandos:
+
+```
+git remote add dokku dokku@trifulca.space:panflix
+git push dokku master -f
+```
+
 ## Agradecimientos
 
 Mucho del código de este proyecto viene de un artículo
