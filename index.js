@@ -12,9 +12,7 @@ const { join } = require("path");
 const app = express();
 
 const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || '0.0.0.0';
-
-
+const HOST = process.env.HOST || "0.0.0.0";
 
 nunjucks.configure("templates", {
   autoescape: true,
@@ -75,13 +73,22 @@ app.get("/logout", function(req, res) {
 
 app.get("/video/:id", function(req, res) {
   const nombre = req.params.id;
-  res.render("video.html", { nombre });
+
+  let ruta_al_video = `videos/${nombre}/${nombre}.mp4`;
+  let existe_video = fs.existsSync(path.join(__dirname, ruta_al_video));
+
+  res.render("video.html", { nombre, existe_video, ruta_al_video });
 });
 
 app.get("/video-subs/:id", autenticado, function(req, res) {
   const nombre = req.params.id;
   let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.vtt`);
-  res.sendFile(archivo);
+
+  if (fs.existsSync(archivo)) {
+    res.sendFile(archivo);
+  } else {
+    res.sendFile(path.join(`${__dirname}/public/sin-subtitulo.vtt`));
+  }
 });
 
 app.get("/video-stream/:id", autenticado, function(req, res) {
@@ -120,7 +127,12 @@ app.get("/video-stream/:id", autenticado, function(req, res) {
 app.get("/captura/:id", function(req, res) {
   let nombre = req.params.id;
   let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.jpg`);
-  res.sendFile(archivo);
+
+  if (fs.existsSync(archivo)) {
+    res.sendFile(archivo);
+  } else {
+    res.sendFile(path.join(`${__dirname}/public/sin-imagen.png`));
+  }
 });
 
 function es_directorio(archivo) {

@@ -10,10 +10,17 @@
 
   <body class="bg-black">
 
-    <video class="video" controls autoplay>
-      <source src="/video-stream/{{nombre}}" type="video/mp4">
-      <track kind="captions" src="/video-subs/{{nombre}}" srclang="en" label="English" default>
-    </video>
+
+    {% if existe_video %}
+      <video class="video" controls autoplay>
+        <source src="/video-stream/{{nombre}}" type="video/mp4">
+        <track kind="captions" src="/video-subs/{{nombre}}" srclang="en" label="English" default>
+      </video>
+    {% else %}
+      <div class="bg-white ma2 pa3 sans-serif">
+        Error, no se encuentra el video de nombre <strong>{{ruta_al_video}}</strong>.
+      </div>
+    {% endif %}
 
   </body>
 </html>

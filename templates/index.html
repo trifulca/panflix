@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/tachyons.min.css">
-    <link rel="stylesheet" href="/app.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/tachyons.min.css" />
+    <link rel="stylesheet" href="/app.css" />
     <title></title>
   </head>
   <body>
-
     <div class="tc pa5-ns pa2 sans-serif">
-
-      <img src="logo.png" alt="">
+      <img src="logo.png" alt="" />
 
       <div class="pa2 mv3 red">
         {{ERROR}}
       </div>
 
       <form action="/login" method="post">
-
         <div class="pa2">
           <div>
             <label class="dib w3 pa3" for="clave">Clave</label>
           </div>
 
           <div>
-            <input autofocus class="input sans-serif pa2 br2 ba b--light-silver" type="password" name="clave" id="clave-panflix" value="">
+            <input
+              autofocus
+              class="input sans-serif pa2 br2 ba b--light-silver"
+              type="password"
+              name="clave"
+              id="clave-panflix"
+              value=""
+            />
           </div>
         </div>
 
         <div class="pa2 mt3">
-          <button type="submit" class="bg-blue white ph4 pv2 pointer">Ingresar</button>
+          <button
+            type="submit"
+            class="bg-blue white hover-bg-dark-blue outline-0 ba bg-animate hover-b--dark-blue b--blue br2 pa2 min-w4 pointer button"
+          >
+            Ingresar
+          </button>
         </div>
-
       </form>
-
     </div>
   </body>
 </html>
