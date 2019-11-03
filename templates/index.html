@@ -13,10 +13,6 @@
     <div class="tc pa5-ns pa2 sans-serif">
       <img src="logo.png" width=348 height=119 alt="Logo" />
 
-      <div class="pa2 mv3 red">
-        {{ERROR}}
-      </div>
-
       <form action="/login" method="post">
         <div class="pa2">
           <div>
@@ -24,11 +20,17 @@
           </div>
 
           <div>
-            <input autofocus class="input sans-serif pa2 br2 ba b--light-silver" type="password" name="clave" id="clave-panflix" value=""/>
+            <input type="password" style="display:none"/>
+            <input autofocus class="{% if error %}shake{% endif %} input sans-serif pa2 br2 ba b--light-silver" type="password" name="clave" id="clave-panflix" value=""/>
           </div>
+
+          <div class="pt2 red shake">
+            {{error}} &nbsp;
+          </div>
+
         </div>
 
-        <div class="pa2 mt3">
+        <div class="pa2 mt2">
           <button type="submit" class="bg-blue white hover-bg-dark-blue outline-0 ba bg-animate hover-b--dark-blue b--blue br2 pa2 min-w4 pointer button">Ingresar</button>
         </div>
       </form>

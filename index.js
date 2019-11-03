@@ -44,7 +44,8 @@ app.get("/", function(req, res) {
   if (req.session.autenticado) {
     res.redirect("/videos");
   } else {
-    res.render("index.html");
+    let error = req.query.error;
+    res.render("index.html", { error });
   }
 });
 
@@ -58,7 +59,7 @@ app.post("/login", function(req, res) {
       res.redirect("/videos");
     });
   } else {
-    res.send("Bad user/pass");
+    res.redirect("/?error=Clave incorrecta");
   }
 });
 
