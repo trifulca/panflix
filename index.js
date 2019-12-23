@@ -127,14 +127,26 @@ app.get("/video-stream/:id", autenticado, function(req, res) {
 
 app.get("/captura/:id", function(req, res) {
   let nombre = req.params.id;
-  let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.jpg`);
+  let archivo = obtener_archivo_de_extension(nombre, "jpg");
 
-  if (fs.existsSync(archivo)) {
-    res.sendFile(archivo);
+  if (archivo) {
+    res.sendFile(`${__dirname}/videos/${nombre}/${archivo}`);
   } else {
     res.sendFile(path.join(`${__dirname}/public/sin-imagen.png`));
   }
 });
+
+/*
+ * Recorre el directorio del enviado por parámetro y retorna
+ * el primer archivo con la extensión solicitada por el segundo
+ * parámetro.
+ */
+function obtener_archivo_de_extension(video, extension) {
+  let nombre = video;
+  let archivos = fs.readdirSync(`${__dirname}/videos/${nombre}/`);
+
+  return archivos.find(a => a.toLowerCase().endsWith(`.${extension}`));
+}
 
 function es_directorio(archivo) {
   return lstatSync(archivo).isDirectory();

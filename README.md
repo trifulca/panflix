@@ -14,9 +14,7 @@ npm install
 npm start
 ```
 
-El paso siguiente es ingresar en la aplicación con un usuario como
-"demo" password "1234" o usar alguno de los usuarios definidos en el archivo
-`usuarios.txt`.
+El paso siguiente es ingresar en la aplicación con el password "123"
 
 - "pana": En Panamá, Ecuador, Venezuela y Puerto Rico, "pana" quiere decir "amigo". Este significado tiene origen indígena. Proviene de _panaca_ que quiere decir familia y _pana_ significa miembro de la familia.
 
