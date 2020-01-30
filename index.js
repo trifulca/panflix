@@ -152,10 +152,17 @@ function es_directorio(archivo) {
   return lstatSync(archivo).isDirectory();
 }
 
+function es_visible(archivo) {
+  return !archivo.startsWith(".");
+}
+
 function obtener_directorios(ruta) {
   return readdirSync(ruta)
     .map(name => join(ruta, name))
     .filter(es_directorio);
+    .filter(es_directorio)
+    .filter(es_visible);
+}
 }
 
 app.get("/videos", autenticado, function(req, res) {
