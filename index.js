@@ -159,10 +159,8 @@ function es_visible(archivo) {
 function obtener_directorios(ruta) {
   return readdirSync(ruta)
     .map(name => join(ruta, name))
-    .filter(es_directorio);
     .filter(es_directorio)
     .filter(es_visible);
-}
 }
 
 app.get("/videos", autenticado, function(req, res) {
