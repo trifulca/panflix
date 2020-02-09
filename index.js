@@ -13,6 +13,7 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || "0.0.0.0";
+const USAR_AUTENTICACION = false;
 
 nunjucks.configure("templates", {
   autoescape: true,
@@ -33,8 +34,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 function autenticado(req, res, next) {
-  if (!req.session.autenticado) {
-    res.send("No estás autorizado a ingresar en esta sección");
+  if (USAR_AUTENTICACION) {
+    if (!req.session.autenticado) {
+      res.send("No estás autorizado a ingresar en esta sección");
+    } else {
+      next();
+    }
   } else {
     next();
   }
