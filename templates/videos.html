@@ -7,13 +7,32 @@
     <link rel="stylesheet" href="/tachyons.min.css" />
     <link rel="stylesheet" href="/app.css" />
     <script src="/turbolinks.js" charset="utf-8"></script>
+    <script src="/stimulus-1.1.1.js" charset="utf-8"></script>
     <meta name="turbolinks-cache-control" content="no-cache">
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon.ico?panflix=1"
-    />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?panflix=1"/>
+
+     <script>
+      (() => {
+        const application = Stimulus.Application.start()
+
+        application.register("progreso", class extends Stimulus.Controller {
+          static get targets() {
+            return [ "progress" ]
+          }
+
+          initialize() {
+            let nombre = this.data.get("nombre");
+            let progreso = localStorage.getItem(nombre);
+
+            if (progreso) {
+              this.progressTarget.value = progreso;
+            }
+          }
+
+        })
+      })()
+  </script>
+
   </head>
 
   <body class="sans-serif ph3">
@@ -24,12 +43,18 @@
     {% for nombre in directorios %}
     <a href="video/{{nombre}}" class="dib">
       <div class="miniatura-de-video pa2 shadow-hover br2 ma1">
-        <div class="fondo-de-foto">
+        <div class="fondo-de-foto relative">
           <img src="/captura/{{nombre}}" class="captura" alt="" />
         </div>
+
+        <div class="tc w-100">
+          <progress data-progreso-nombre={{nombre}} data-controller="progreso" data-target="progreso.progress" value="0" max="100">
+        </div>
+
         <div class="titulo">{{nombre}}</div>
       </div>
     </a>
     {% endfor %}
+
   </body>
 </html>

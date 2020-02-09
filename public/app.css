@@ -21,7 +21,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-top: 5px;
   width: 300px;
 }
 
@@ -101,3 +100,12 @@ a {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.w-100 {
+  width: 100%;
+}
+
+.tc {
+  text-align: center;
+}
+

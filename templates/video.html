@@ -8,13 +8,39 @@
     <link rel="stylesheet" href="/app.css"/>
     <script src="/turbolinks.js" charset="utf-8"></script>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?panflix=1">
+    <script src="/stimulus-1.1.1.js" charset="utf-8"></script>
     <meta name="turbolinks-cache-control" content="no-cache">
+
+     <script>
+      (() => {
+        const application = Stimulus.Application.start()
+
+        application.register("video", class extends Stimulus.Controller {
+
+          connect() {
+            let nombre = this.data.get("nombre");
+
+            this.element.ontimeupdate = function(e) {
+              let progreso = (this.currentTime / this.duration) * 100;
+              progreso = parseInt(progreso, 10);
+
+              localStorage.setItem(nombre, progreso);
+            }
+          }
+
+          disconnect() {
+            this.element.ontimeupdate = null;
+          }
+
+        })
+      })()
+  </script>
   </head>
 
   <body class="bg-black">
 
     {% if existe_video %}
-      <video class="video" controls autoplay>
+      <video data-controller="video" data-video-nombre={{nombre}} class="video" controls autoplay>
         <source src="/video-stream/{{nombre}}" type="video/mp4">
         <track kind="captions" src="/video-subs/{{nombre}}" srclang="en" label="English" default>
       </video>
