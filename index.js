@@ -161,17 +161,20 @@ function es_visible(archivo) {
   return !archivo.startsWith(".");
 }
 
+function eliminar_prefijo_videos(nombre) {
+  return nombre.replace("videos/", "");
+}
+
 function obtener_directorios(ruta) {
   return readdirSync(ruta)
     .map(name => join(ruta, name))
     .filter(es_directorio)
+    .map(eliminar_prefijo_videos)
     .filter(es_visible);
 }
 
 app.get("/videos", autenticado, function(req, res) {
-  let directorios = obtener_directorios("videos").map(e =>
-    e.replace("videos/", "")
-  );
+  let directorios = obtener_directorios("videos");
   res.render("videos.html", { directorios });
 });
 
