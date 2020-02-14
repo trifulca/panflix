@@ -167,10 +167,10 @@ function eliminar_prefijo_videos(nombre) {
 
 function obtener_directorios(ruta) {
   return readdirSync(ruta)
+    .filter(es_visible)
     .map(name => join(ruta, name))
     .filter(es_directorio)
-    .map(eliminar_prefijo_videos)
-    .filter(es_visible);
+    .map(eliminar_prefijo_videos);
 }
 
 app.get("/videos", autenticado, function(req, res) {
