@@ -40,9 +40,9 @@
   <body class="bg-black">
 
     {% if existe_video %}
-      <video data-controller="video" data-video-nombre={{nombre}} class="video" controls autoplay>
-        <source src="/video-stream/{{nombre}}" type="video/mp4">
-        <track kind="captions" src="/video-subs/{{nombre}}" srclang="en" label="English" default>
+      <video data-controller="video" data-video-nombre="{{progreso_id}}" class="video" controls autoplay>
+        <source src="/video-stream/{{ruta_al_video}}" type="video/mp4">
+        <track kind="captions" src="/video-subs/{{ruta_al_video}}" srclang="en" label="English" default>
       </video>
     {% else %}
       <div class="bg-white ma2 pa3 sans-serif">

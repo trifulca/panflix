@@ -77,18 +77,38 @@ app.get("/logout", function(req, res) {
   });
 });
 
-app.get("/video/:id", function(req, res) {
-  const nombre = req.params.id;
+app.get("/video/:nombre", function(req, res) {
+  const { nombre } = req.params;
+  const es_video = filename => filename.match(/\.mp4$/) !== null;
+  const quitar_extension = filename => filename.replace(/\.[^.]*$/, '');
+  const ruta = `${__dirname}/videos/${nombre}`;
+  const videos = fs.readdirSync(ruta).filter(es_video).map(quitar_extension);
 
-  let ruta_al_video = `videos/${nombre}/${nombre}.mp4`;
-  let existe_video = fs.existsSync(path.join(__dirname, ruta_al_video));
+  if (videos.length <= 1) {
+    const ruta_al_video = `${nombre}/${videos[0]}`;
+    res.render("video.html", { nombre, existe_video: true, ruta_al_video, progreso_id: nombre });
+  } else {
+    const archivos = videos.map(archivo => ({
+      captura: `/captura/${nombre}/${archivo}`,
+      video: `/video/${nombre}/${archivo}`,
+      nombre: archivo,
+      progreso_id: `${nombre}/${archivo}`,
+    }));
 
-  res.render("video.html", { nombre, existe_video, ruta_al_video });
+    res.render("videos.html", { archivos });
+  }
 });
 
-app.get("/video-subs/:id", autenticado, function(req, res) {
-  const nombre = req.params.id;
-  let archivo = path.join(`${__dirname}/videos/${nombre}/${nombre}.vtt`);
+app.get("/video/:nombre/:video", function(req, res) {
+  const { nombre, video } = req.params;
+  const ruta_al_video = `${nombre}/${video}`;
+  const existe_video = fs.existsSync(path.join(__dirname, 'videos', `${ruta_al_video}.mp4`));
+  res.render("video.html", { nombre, existe_video, ruta_al_video, progreso_id: ruta_al_video });
+});
+
+app.get("/video-subs/:nombre/:video", autenticado, function(req, res) {
+  const { nombre, video } = req.params;
+  let archivo = path.join(`${__dirname}/videos/${nombre}/${video}.vtt`);
 
   if (fs.existsSync(archivo)) {
     res.sendFile(archivo);
@@ -97,9 +117,9 @@ app.get("/video-subs/:id", autenticado, function(req, res) {
   }
 });
 
-app.get("/video-stream/:id", autenticado, function(req, res) {
-  const nombre = req.params.id;
-  const path = `videos/${nombre}/${nombre}.mp4`;
+app.get("/video-stream/:nombre/:video", autenticado, function(req, res) {
+  const { nombre, video } = req.params;
+  const path = `videos/${nombre}/${video}.mp4`;
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
@@ -130,12 +150,25 @@ app.get("/video-stream/:id", autenticado, function(req, res) {
   }
 });
 
-app.get("/captura/:id", function(req, res) {
-  let nombre = req.params.id;
-  let archivo = obtener_archivo_de_extension(nombre, "jpg");
+/* Captura para toda una colección */
+app.get("/captura/:nombre", function(req, res) {
+  const { nombre } = req.params;
+  const archivo = obtener_archivo_de_extension(nombre, "jpg");
 
   if (archivo) {
     res.sendFile(`${__dirname}/videos/${nombre}/${archivo}`);
+  } else {
+    res.sendFile(path.join(`${__dirname}/public/sin-imagen.png`));
+  }
+});
+
+/* Captura para un video específico */
+app.get("/captura/:nombre/:video", function(req, res) {
+  const { nombre, video } = req.params;
+  const archivo = `${__dirname}/videos/${nombre}/${video}.jpg`;
+
+  if (fs.existsSync(archivo)) {
+    res.sendFile(archivo);
   } else {
     res.sendFile(path.join(`${__dirname}/public/sin-imagen.png`));
   }
@@ -174,8 +207,13 @@ function obtener_directorios(ruta) {
 }
 
 app.get("/videos", autenticado, function(req, res) {
-  let directorios = obtener_directorios("videos");
-  res.render("videos.html", { directorios });
+  const archivos = obtener_directorios("videos").map(directorio => ({
+    captura: `/captura/${directorio}`,
+    video: `/video/${directorio}`,
+    nombre: directorio,
+    progreso_id: directorio,
+  }));
+  res.render("videos.html", { archivos });
 });
 
 app.listen(PORT, HOST, function() {
