@@ -40,18 +40,18 @@
       <a href="/logout">Salir</a>
     </div>
 
-    {% for nombre in directorios %}
-    <a href="video/{{nombre}}" class="dib">
+    {% for archivo in archivos %}
+    <a href="{{archivo.video}}" class="dib">
       <div class="miniatura-de-video pa2 shadow-hover br2 ma1">
         <div class="fondo-de-foto relative">
-          <img src="/captura/{{nombre}}" class="captura" alt="" />
+          <img src="{{archivo.captura}}" class="captura" alt="" />
         </div>
 
         <div class="tc w-100">
-          <progress data-progreso-nombre={{nombre}} data-controller="progreso" data-target="progreso.progress" value="0" max="100">
+          <progress data-progreso-nombre="{{archivo.progreso_id}}" data-controller="progreso" data-target="progreso.progress" value="0" max="100">
         </div>
 
-        <div class="titulo">{{nombre}}</div>
+        <div class="titulo">{{archivo.nombre}}</div>
       </div>
     </a>
     {% endfor %}
