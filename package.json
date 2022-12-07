@@ -17,9 +17,9 @@
   "author": "hugoruscitti",
   "license": "GPLv3",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-session": "^1.17.0",
     "nodemon": "^1.19.4",
     "nunjucks": "^3.2.0"
